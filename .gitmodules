@@ -1,0 +1,6 @@
+[submodule "index-audio-amplifier"]
+	path = electrical/pcb/index-audio-amplifier
+	url = ../../recursivenomad/index-audio-amplifier.git
+[submodule "index-audio-interface"]
+	path = electrical/firmware/index-audio-interface
+	url = ../../recursivenomad/index-audio-interface.git
