@@ -1,5 +1,5 @@
-🔌 **Adapts various HMDs to the Valve Index audio strap**
-=========================================================
+🎧 **Adapts various HMDs to the Valve Index audio strap**
+==========================================================
 
 ### Bringing off-ear BMR drivers and a spare USB-C port to the Bigscreen Beyond & more...
 
@@ -41,10 +41,27 @@
 
 
 
+***Cloning***
+=============
+
+```bash
+git clone https://gitlab.com/recursivenomad/index-audio-adapter.git
+cd index-audio-adapter/
+git submodule update --init --recursive
+```
+
+&nbsp;
+
+
+
+
+
+
 ***License / Access***
 ======================
 
-This original work is freely available under your choice of the [*MIT-0*](./LICENSE.txt) license or [*CC0-1.0*][URL-CC0] public domain dedication.  
+Original work is freely available under your choice of the [*MIT-0*](./LICENSE.txt) license or [*CC0-1.0*][URL-CC0] public domain dedication.  
+Upstream adapted [firmware](./electrical/firmware/) is redistributed under the [*BSD-3-Clause*][URL-BSD-3-Clause] license, an [*HPND*][URL-HPND] variant, and the [*MIT*][URL-MIT] license.
 
 
 ----------------------
@@ -62,5 +79,9 @@ This original work is freely available under your choice of the [*MIT-0*](./LICE
 [URL-MIT-0]: <https://opensource.org/license/mit-0/>
 [URL-CC0]: <https://creativecommons.org/publicdomain/zero/1.0/>
 
+[URL-BSD-3-Clause]: <https://opensource.org/license/bsd-3-clause>
+[URL-HPND]: <https://opensource.org/license/historical-php>
+[URL-MIT]: <https://opensource.org/license/mit>
 
-[URL-Repository]: <https://gitlab.com/recursivenomad/index-audio-adpater/>
+
+[URL-Repository]: <https://gitlab.com/recursivenomad/index-audio-adapter/>

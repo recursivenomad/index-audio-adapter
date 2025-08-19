@@ -1,0 +1,4 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/electrical/firmware/index-audio-interface",
+    "cmake.buildDirectory": "${workspaceFolder}/electrical/firmware/index-audio-interface/build"
+}
