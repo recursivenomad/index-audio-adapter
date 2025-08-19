@@ -1,0 +1,21 @@
+# Project
+# -------
+
+# Misc intermediary/meta files
+_untracked/
+
+# Release files
+releases/
+
+
+
+# FreeCAD 1.0
+# -----------
+
+# Backup files
+*.FCBak
+
+# Built files
+*.step
+*.stl
+*.wrl
