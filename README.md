@@ -73,7 +73,10 @@ git submodule update --init --recursive
 ======================
 
 Original work is freely available under your choice of the [*MIT-0*](./LICENSE.txt) license or [*CC0-1.0*][URL-CC0] public domain dedication.  
-Upstream adapted [firmware](./electrical/firmware/) is redistributed under the [*BSD-3-Clause*][URL-BSD-3-Clause] license, an [*HPND*][URL-HPND] variant, and the [*MIT*][URL-MIT] license.
+Although attribution is not legally required, sharing when you've made something with my work is really cool 💖
+
+Additionally:  
+- Upstream [firmware](./electrical/firmware/) is redistributed under the [*BSD-3-Clause*][URL-BSD-3-Clause] license, an [*HPND*][URL-HPND] variant, and the [*MIT*][URL-MIT] license.
 
 
 ----------------------
