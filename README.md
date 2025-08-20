@@ -76,6 +76,7 @@ Original work is freely available under your choice of the [*MIT-0*](./LICENSE.t
 Although attribution is not legally required, sharing when you've made something with my work is really cool 💖
 
 Additionally:  
+- Translated [reference geometry](./mechanical/lib/reference-geometry/) is redistributed under the [*CC-BY-4.0*][URL-CC-BY] license.  
 - Upstream [firmware](./electrical/firmware/) is redistributed under the [*BSD-3-Clause*][URL-BSD-3-Clause] license, an [*HPND*][URL-HPND] variant, and the [*MIT*][URL-MIT] license.
 
 
@@ -94,6 +95,7 @@ Additionally:
 [URL-MIT-0]: <https://opensource.org/license/mit-0/>
 [URL-CC0]: <https://creativecommons.org/publicdomain/zero/1.0/>
 
+[URL-CC-BY]: <https://creativecommons.org/licenses/by/4.0/>
 [URL-BSD-3-Clause]: <https://opensource.org/license/bsd-3-clause>
 [URL-HPND]: <https://opensource.org/license/historical-php>
 [URL-MIT]: <https://opensource.org/license/mit>
