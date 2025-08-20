@@ -6,7 +6,7 @@
 
 
 
-# 1.1.1
+# 1.2.0
 
 # Pre-commit git hook for committing reduced, usable, & trackable .FCStd files
 # ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@
 #   Continuously committing from the same non-reduced local source document
 #   appears to reduce this issue.
 
-#   Last updated for FreeCAD 1.0.1
+#   Last updated for FreeCAD 1.0.2
 
 
 
@@ -58,6 +58,12 @@ ExcludeFiles+=" *Shape.Map.txt"
 ExcludeFiles+=" StringHasher.Table.txt"
 
 
+# Skip certain directories
+#   Do not perform any fixup to .FCStd files beneath these directory names
+
+IgnoreDirectories=("lib" "import")
+
+
 
 
 # --show-toplevel should throw an error if there is no working tree (untested)
@@ -76,7 +82,7 @@ FCStdErrorCount=0
 for file in "${StagedFiles[@]}"; do
   # For every .FCStd staged for commit:
   if [[ "${file^^}" == *\.FCSTD ]]; then
-    #echo "Identified staged" $file
+    #echo "Identified staged '"$file"'"
 
 
     if [[ ! `git rev-parse --verify HEAD 2>&-` ]]; then
@@ -86,30 +92,39 @@ for file in "${StagedFiles[@]}"; do
 
 
     if [[ ! -s "${GitRoot}"/"${file}" ]]; then
-      echo $file "does not exist - assuming this is a deletion commit."
+      echo "'"$file"' does not exist - assuming this is a deletion commit."
       continue # No fixup necessary
     fi
 
+    Ignore=0
+    for dir in "${IgnoreDirectories[@]}"; do
+      if [[ "./"$file == *"/"$dir"/"* ]]; then
+        echo "'"$file"' is beneath the predefined '"$dir"' directory name - skipping .FCStd pre-commit hook for this file."
+        Ignore=1
+      fi
+    done
+    if [[ $Ignore == 1 ]]; then continue; fi # No fixup necessary
+
 
     #echo "Saving temporary copy of unmodified .FCStd"
-    mv "${GitRoot}"/"${file}" "${GitRoot}"/"${file}".bak
+    mv "${GitRoot}"/"${file}" "${GitRoot}"/"${file}".pre-commit.bak
 
 
-    if [[ ! -s "${GitRoot}"/"${file}".bak ]]; then
-      echo "Unable to move" $file "Is it open somewhere other than FreeCAD?"
+    if [[ ! -s "${GitRoot}"/"${file}".pre-commit.bak ]]; then
+      echo "Unable to move '"$file"' Is it open somewhere other than FreeCAD?"
       (( FCStdErrorCount+=1 )); continue
     fi
 
 
     #echo "Extracting selected .FCStd source files..."
     mkdir "${GitRoot}"/.unzip-temp/
-    unzip -q "${GitRoot}"/"${file}".bak -x $ExcludeFiles -d "${GitRoot}"/.unzip-temp/incoming/ 2>&-
+    unzip -q "${GitRoot}"/"${file}".pre-commit.bak -x $ExcludeFiles -d "${GitRoot}"/.unzip-temp/incoming/ 2>&-
 
 
     if [[ ! -d "${GitRoot}"/.unzip-temp/incoming || ! -s "${GitRoot}"/.unzip-temp/incoming/Document.xml ]]; then
       echo "Unable to find extracted .FCStd - aborting"
       rm -r "${GitRoot}"/.unzip-temp/
-      mv --force "${GitRoot}"/"${file}".bak "${GitRoot}"/"${file}"
+      mv --force "${GitRoot}"/"${file}".pre-commit.bak "${GitRoot}"/"${file}"
       (( FCStdErrorCount+=1 )); continue
     fi
 
@@ -147,9 +162,9 @@ for file in "${StagedFiles[@]}"; do
       rm "${GitRoot}"/"${file}"
 
       if [[ ! `diff -N --recursive "${GitRoot}"/.unzip-temp/previous/ "${GitRoot}"/.unzip-temp/incoming/` ]]; then
-        #echo $file "archive contents are identical; not staging"
+        #echo "'"$file"' archive contents are identical; not staging"
         rm -r "${GitRoot}"/.unzip-temp/
-        mv --force "${GitRoot}"/"${file}".bak "${GitRoot}"/"${file}"
+        mv --force "${GitRoot}"/"${file}".pre-commit.bak "${GitRoot}"/"${file}"
         continue
       fi
     fi
@@ -174,7 +189,7 @@ for file in "${StagedFiles[@]}"; do
 
     if [[ ! -s "${GitRoot}"/"${file}" ]]; then
       echo "Error recreating archive - aborting"
-      mv --force "${GitRoot}"/"${file}".bak "${GitRoot}"/"${file}"
+      mv --force "${GitRoot}"/"${file}".pre-commit.bak "${GitRoot}"/"${file}"
       (( FCStdErrorCount+=1 )); continue
     fi
 
@@ -183,13 +198,13 @@ for file in "${StagedFiles[@]}"; do
     git add "${file}"
 
     #echo "Restoring unmodified .FCStd"
-    if [[ `mv --force "${GitRoot}"/"${file}".bak "${GitRoot}"/"${file}"` ]]; then
-      echo $file "unable to be restored! Resave FreeCAD if it is open, or manually rename *.FCStd.bak to replace *.FCStd to restore the local file, then try again"
+    if [[ `mv --force "${GitRoot}"/"${file}".pre-commit.bak "${GitRoot}"/"${file}"` ]]; then
+      echo "'"$file"' unable to be restored! Resave FreeCAD if it is open, or manually rename *.FCStd.pre-commit.bak to replace *.FCStd to restore the local file, then try again"
       # TODO - Probably busy from FreeCAD autosaving; any workaround?
       (( FCStdErrorCount+=1 )); continue
     fi
 
-    echo $file "reduced, repacked, and staged for commit."
+    echo "'"$file"' reduced, repacked, and staged for commit."
 
   fi
 
